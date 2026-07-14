@@ -1,4 +1,6 @@
-# LabMind Backend
+# LabMind Backend (English)
+
+> 🌐 This README is available in three languages / 本文档提供英文、中文和韩文版本 / 이 README는 영어, 중국어, 한국어로 제공됩니다: [English](#labmind-backend-english) | [中文](#中文版) | [한국어](#한국어-버전)
 
 ## My Task
 
