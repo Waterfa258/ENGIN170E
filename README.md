@@ -1,8 +1,8 @@
 # LabMind Backend
 
-## Our Task
+## My Task
 
-Our part builds the vision API and backend pipeline that converts a reagent-label image into structured OCR data, inventory and expiry results, and alternative recommendations for the Streamlit UI.
+I build the vision API and backend pipeline that converts a reagent-label image into structured OCR data, inventory and expiry results, and alternative recommendations for the Streamlit UI.
 
 ## How to Run
 
@@ -51,9 +51,9 @@ For live OCR, change `LABMIND_VISION_MODE` to `live` in `.env.local` and add the
 
 # 中文版
 
-## 我们的任务
+## 我的任务
 
-我们这一部分负责开发 Vision API 和后端流程，将试剂标签图片转换为结构化 OCR 数据、库存与有效期结果以及替代产品推荐，并提供给 Streamlit 界面使用。
+我负责开发 Vision API 和后端流程，将试剂标签图片转换为结构化 OCR 数据、库存与有效期结果以及替代产品推荐，并提供给 Streamlit 界面使用。
 
 ## 如何运行
 
@@ -102,9 +102,9 @@ python -m unittest discover -s tests
 
 # 한국어 버전
 
-## 저희 파트의 역할
+## 제 역할
 
-저희 파트는 시약 라벨 이미지를 구조화된 OCR 데이터, 재고 및 유효기간 결과, 대체 제품 추천으로 변환하여 Streamlit UI에 전달하는 Vision API와 백엔드 파이프라인을 개발합니다.
+저는 시약 라벨 이미지를 구조화된 OCR 데이터, 재고 및 유효기간 결과, 대체 제품 추천으로 변환하여 Streamlit UI에 전달하는 Vision API와 백엔드 파이프라인을 개발합니다.
 
 ## 실행 방법
 
