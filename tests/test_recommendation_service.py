@@ -12,7 +12,7 @@ class RecommendationServiceTests(unittest.TestCase):
         recommendations = self.repository.find_by_catalog_number(" hs4323k ")
 
         self.assertEqual(len(recommendations), 2)
-        self.assertEqual(recommendations[0].catalog_number, "HS4325")
+        self.assertEqual(recommendations[0].catalog_number, "05-408-129")
         self.assertIn("verify", recommendations[0].compatibility_note.lower())
 
     def test_recommendation_contains_product_price_and_url(self) -> None:

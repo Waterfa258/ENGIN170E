@@ -8,6 +8,7 @@
 - Five-image reviewed ground truth and v1 result table
 - Batch evaluator that regenerates 	est_results_v1.csv and ailure_log.md`n- Real Gemini 3.5 Flash result: 5/5 images fully matched, 15/15 target fields correct
 - Automated verification: 46/46 backend unit tests passing
+- 36 cross-brand alternative mappings covering 18 catalog numbers with matched capacity and documented dimensional checks
 
 ## Safe API-key setup
 
