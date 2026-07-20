@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from typing import Any, Mapping
 
+from .gemini_vision_service import extract_label_with_gemini
 from .provider_config import DEFAULT_ENV_PATH, VisionProviderConfig, resolve_provider_config
 from .schemas import OCRResult, ResultStatus
 from .vision_service import (
@@ -98,8 +99,20 @@ def extract_label_with_provider(
         return _failed(str(error))
 
     if not config.api_key:
-        variable = "OPENAI_API_KEY" if config.name == "openai" else "UNIVIBE_API_KEY"
+        variable = {
+            "openai": "OPENAI_API_KEY",
+            "univibe": "UNIVIBE_API_KEY",
+            "gemini": "GEMINI_API_KEY or GOOGLE_API_KEY",
+        }[config.name]
         return _failed(f"{variable} is not configured.")
+
+    if config.name == "gemini":
+        return extract_label_with_gemini(
+            image_path,
+            api_key=config.api_key,
+            model=config.model,
+            client=client,
+        )
 
     try:
         active_client = client or _create_client(config)

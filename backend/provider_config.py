@@ -22,6 +22,9 @@ ALLOWED_ENV_NAMES = {
     "UNIVIBE_API_KEY",
     "UNIVIBE_BASE_URL",
     "UNIVIBE_MODEL",
+    "GEMINI_API_KEY",
+    "GOOGLE_API_KEY",
+    "GEMINI_MODEL",
 }
 
 
@@ -105,4 +108,18 @@ def resolve_provider_config(
             chat_completions_fallback=True,
         )
 
-    raise ValueError("LABMIND_PROVIDER must be 'openai' or 'univibe'.")
+    if selected in {"gemini", "google"}:
+        return VisionProviderConfig(
+            name="gemini",
+            api_key=(
+                values.get("GOOGLE_API_KEY")
+                or values.get("GEMINI_API_KEY")
+                or None
+            ),
+            base_url="https://generativelanguage.googleapis.com",
+            model=values.get("GEMINI_MODEL") or "gemini-3.5-flash",
+        )
+
+    raise ValueError(
+        "LABMIND_PROVIDER must be 'openai', 'univibe', or 'gemini'."
+    )

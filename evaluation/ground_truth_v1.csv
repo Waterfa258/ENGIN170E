@@ -1,0 +1,6 @@
+image_name,catalog_number,lot_number,expiry_date,brand,product_name,review_note
+label_01.png,,7439,2017-09-30,,PBS 10X,No catalog number or brand is visible on the foreground bottle
+label_02.png,,AC45739,2026-10-31,,Hydrochloric Acid,Label shows batch and expiry but no catalog number
+label_03.png,,0001234,2026-09-13,,Alcohol,Generic laboratory label with no catalog number or brand
+label_04.png,156248-100G,STBG8398,,Sigma-Aldrich,Sodium ethoxide,No expiry date visible
+label_05.png,270741-2L,SHBJ3763,,Sigma-Aldrich,Reagent Alcohol for HPLC,No expiry date visible

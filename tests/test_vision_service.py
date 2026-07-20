@@ -70,7 +70,7 @@ class VisionServiceTests(unittest.TestCase):
         self.assertEqual(image_input["type"], "input_image")
         self.assertTrue(image_input["image_url"].startswith("data:image/png;base64,"))
 
-    def test_missing_catalog_number_is_a_failed_result(self) -> None:
+    def test_missing_catalog_number_preserves_partial_ocr_result(self) -> None:
         client = FakeClient(
             parsed=LabelExtraction(
                 catalog_number=None,
@@ -84,8 +84,9 @@ class VisionServiceTests(unittest.TestCase):
 
         result = extract_label_info(self.image_path, mode="live", client=client)
 
-        self.assertEqual(result.status, ResultStatus.FAILED)
-        self.assertIn("Catalog number", result.error_message)
+        self.assertEqual(result.status, ResultStatus.SUCCESS)
+        self.assertIsNone(result.catalog_number)
+        self.assertEqual(result.lot_number, "LOT-9")
 
     def test_api_exception_becomes_a_failed_result(self) -> None:
         client = FakeClient(error=TimeoutError("simulated"))

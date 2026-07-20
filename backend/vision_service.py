@@ -37,6 +37,16 @@ Extract catalog_number, lot_number, expiry_date, brand, product_name, and a
 confidence score from 0 to 1. Use null for fields that are not visible. Preserve
 the label's date text; application code will normalize it.
 
+Important label synonyms:
+- Catalog: Cat. No., Catalog No., Product No., Prod.
+- Lot: Lot, Lot #, Batch, Batch No., BATCA.
+- Expiry: EXP, Expiry, Expiration Date, Use By.
+
+Do not confuse CAS/EC numbers, concentrations, volumes, received dates, or
+opened dates, or values labeled Bottle/Container with catalog numbers. Only
+accept a catalog value when its nearby label explicitly means catalog/product number.
+Preserve leading zeros.
+
 Examples:
 1. Label text "Sigma-Aldrich / Cat. No. HS4323K / Lot 24A01 / EXP 09/26"
    means catalog_number=HS4323K, lot_number=24A01,
@@ -138,8 +148,16 @@ def _parse_live_response(parsed: LabelExtraction | None) -> OCRResult:
     catalog_number = (
         parsed.catalog_number.strip().upper() if parsed.catalog_number else None
     )
-    if not catalog_number:
-        return _failed("Catalog number could not be recognized.")
+    if not any(
+        (
+            catalog_number,
+            parsed.lot_number,
+            parsed.expiry_date,
+            parsed.brand,
+            parsed.product_name,
+        )
+    ):
+        return _failed("No reagent-label fields could be recognized.")
 
     return OCRResult(
         catalog_number=catalog_number,

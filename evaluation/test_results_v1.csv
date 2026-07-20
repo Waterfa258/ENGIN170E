@@ -1,0 +1,6 @@
+image_name,provider,ocr_status,expected_catalog_number,expected_lot_number,expected_expiry_date,ai_catalog_number,ai_lot_number,ai_expiry_date,catalog_match,lot_match,expiry_match,all_three_match,confidence,error_message
+label_01.png,codex_manual_vision,partial,,7439,2017-09-30,,7439,2017-09-30,True,True,True,True,0.98,Catalog number not present on label
+label_02.png,codex_manual_vision,partial,,AC45739,2026-10-31,,AC45739,2026-10-31,True,True,True,True,0.98,Catalog number not present on label
+label_03.png,codex_manual_vision,partial,,0001234,2026-09-13,,0001234,2026-09-13,True,True,True,True,0.99,Catalog number not present on label
+label_04.png,codex_manual_vision,success,156248-100G,STBG8398,,156248-100G,STBG8398,,True,True,True,True,0.99,
+label_05.png,codex_manual_vision,success,270741-2L,SHBJ3763,,270741-2L,SHBJ3763,,True,True,True,True,0.99,
