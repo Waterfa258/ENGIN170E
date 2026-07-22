@@ -58,6 +58,16 @@ class StreamlitIntegrationTests(unittest.TestCase):
             "&lt;script&gt;alert(1)&lt;/script&gt;",
         )
 
+    def test_missing_catalog_explains_why_inventory_is_unavailable(self) -> None:
+        inventory_status, quantity, location = app.inventory_display_values(
+            {"catalog_number": None},
+            {},
+        )
+
+        self.assertIn("catalog number missing", inventory_status)
+        self.assertEqual(quantity, "Requires catalog number")
+        self.assertEqual(location, "Requires catalog number")
+
     def test_uploaded_file_reaches_real_backend_in_mock_mode(self) -> None:
         with patch.dict(os.environ, {"LABMIND_VISION_MODE": "mock"}):
             result = app.analyze_uploaded_file(FakeUpload())

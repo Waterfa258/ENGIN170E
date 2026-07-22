@@ -94,15 +94,19 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(result.error_message, "simulated OCR failure")
         self.assertIsNone(result.inventory)
 
-    def test_success_without_catalog_number_becomes_failure(self) -> None:
+    def test_success_without_catalog_number_keeps_expiry_analysis(self) -> None:
         result = analyze_label(
             "unused.png",
-            ocr_result=OCRResult(confidence=0.2),
+            ocr_result=OCRResult(expiry_date="2017-09-30", confidence=0.9),
             today=TODAY,
         )
 
         self.assertEqual(result.status, ResultStatus.FAILED)
         self.assertIn("Catalog number", result.error_message)
+        self.assertIsNone(result.inventory)
+        self.assertEqual(result.image_expiry, "2017-09-30")
+        self.assertEqual(result.expiry_warning.state, ExpiryState.EXPIRED)
+        self.assertLess(result.expiry_warning.days_remaining, 0)
 
     def test_result_is_json_serializable_for_streamlit(self) -> None:
         result = analyze_label(

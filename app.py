@@ -424,6 +424,24 @@ def display_value(value, fallback: str = "Not available") -> str:
     text = str(value).strip() if value is not None else ""
     return html.escape(text or fallback)
 
+
+def inventory_display_values(ocr: dict, inventory: dict) -> tuple[object, object, object]:
+    """Return explicit inventory placeholders for partial OCR results."""
+
+    if inventory:
+        return (
+            "Found" if inventory.get("found") else "Not found",
+            inventory.get("quantity"),
+            inventory.get("location"),
+        )
+    if not ocr.get("catalog_number"):
+        return (
+            "Cannot check: catalog number missing",
+            "Requires catalog number",
+            "Requires catalog number",
+        )
+    return "Not checked", None, None
+
 def render_topbar() -> None:
     st.markdown(
         """
@@ -474,10 +492,7 @@ def render_result_card(result: dict) -> None:
     lot_number = display_value(ocr.get("lot_number"))
     expiry_date = display_value(ocr.get("expiry_date"))
 
-    if inventory:
-        inventory_status = "Found" if inventory.get("found") else "Not found"
-    else:
-        inventory_status = "Not checked"
+    inventory_status, quantity, location = inventory_display_values(ocr, inventory)
 
     st.markdown(
         f"""
@@ -505,11 +520,11 @@ def render_result_card(result: dict) -> None:
                 </div>
                 <div class="detail-card">
                     <div class="field-label">Quantity</div>
-                    <div class="field-value">{display_value(inventory.get("quantity"))}</div>
+                    <div class="field-value">{display_value(quantity)}</div>
                 </div>
                 <div class="detail-card">
                     <div class="field-label">Location</div>
-                    <div class="field-value">{display_value(inventory.get("location"))}</div>
+                    <div class="field-value">{display_value(location)}</div>
                 </div>
                 <div class="detail-card">
                     <div class="field-label">Expiry state</div>

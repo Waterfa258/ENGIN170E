@@ -68,7 +68,21 @@ def analyze_label(
         )
 
     if not ocr.catalog_number:
-        return _failed_analysis(ocr, "Catalog number could not be recognized.")
+        image_expiry = normalize_expiry_date(ocr.expiry_date)
+        expiry_warning = check_expiry(
+            image_expiry,
+            warning_days=warning_days,
+            today=today,
+        )
+        return AnalysisResult(
+            status=ResultStatus.FAILED,
+            ocr=ocr,
+            expiry_warning=expiry_warning,
+            image_expiry=image_expiry,
+            error_message=(
+                "Catalog number could not be recognized; inventory lookup was skipped."
+            ),
+        )
 
     try:
         inventory_repository = InventoryRepository(inventory_path)
