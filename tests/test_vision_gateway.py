@@ -113,6 +113,45 @@ class VisionGatewayTests(unittest.TestCase):
         self.assertEqual(result.status, ResultStatus.SUCCESS)
         self.assertEqual(result.catalog_number, "HS4323K")
 
+    def test_mode_and_provider_can_be_loaded_from_env_file(self) -> None:
+        env_file = tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=".env",
+            delete=False,
+        )
+        env_file.write(
+            "LABMIND_VISION_MODE=live\n"
+            "LABMIND_PROVIDER=gemini\n"
+            "GEMINI_API_KEY=test-key\n"
+            "GEMINI_MODEL=test-model\n"
+        )
+        env_file.close()
+        env_path = Path(env_file.name)
+
+        class FakeGeminiModels:
+            def __init__(self) -> None:
+                self.last_request = None
+
+            def generate_content(self, **kwargs):
+                self.last_request = kwargs
+                return SimpleNamespace(parsed=extraction())
+
+        client = SimpleNamespace(models=FakeGeminiModels())
+        try:
+            result = extract_label_with_provider(
+                self.image_path,
+                client=client,
+                environ={},
+                env_path=env_path,
+            )
+        finally:
+            env_path.unlink(missing_ok=True)
+
+        self.assertEqual(result.status, ResultStatus.SUCCESS)
+        self.assertEqual(result.catalog_number, "HS4323K")
+        self.assertEqual(client.models.last_request["model"], "test-model")
+
     def test_live_univibe_requires_its_own_key(self) -> None:
         result = extract_label_with_provider(
             self.image_path,

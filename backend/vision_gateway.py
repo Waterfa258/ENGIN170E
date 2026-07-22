@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 from typing import Any, Mapping
 
 from .gemini_vision_service import extract_label_with_gemini
-from .provider_config import DEFAULT_ENV_PATH, VisionProviderConfig, resolve_provider_config
+from .provider_config import (
+    DEFAULT_ENV_PATH,
+    VisionProviderConfig,
+    load_provider_environment,
+    resolve_provider_config,
+)
 from .schemas import OCRResult, ResultStatus
 from .vision_service import (
     LabelExtraction,
@@ -80,9 +84,9 @@ def extract_label_with_provider(
     environ: Mapping[str, str] | None = None,
     env_path: Path | None = DEFAULT_ENV_PATH,
 ) -> OCRResult:
-    """Extract a label using mock, official OpenAI, or UniVibe mode."""
+    """Extract a label using mock, OpenAI, UniVibe, or Gemini mode."""
 
-    environment = dict(os.environ if environ is None else environ)
+    environment = load_provider_environment(environ, env_path)
     selected_mode = (mode or environment.get("LABMIND_VISION_MODE") or "mock").lower()
     if selected_mode == "mock":
         return extract_with_responses(image_path, mode="mock")

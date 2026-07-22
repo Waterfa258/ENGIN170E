@@ -55,10 +55,12 @@ def _read_env_file(env_path: Path | None) -> dict[str, str]:
     return values
 
 
-def _merged_environment(
+def load_provider_environment(
     environ: Mapping[str, str] | None,
     env_path: Path | None,
 ) -> dict[str, str]:
+    """Load supported settings with process values overriding the env file."""
+
     values = _read_env_file(env_path)
     values.update(dict(os.environ if environ is None else environ))
     return values
@@ -84,7 +86,7 @@ def resolve_provider_config(
 ) -> VisionProviderConfig:
     """Resolve one provider without ever mixing provider credentials."""
 
-    values = _merged_environment(environ, env_path)
+    values = load_provider_environment(environ, env_path)
     selected = (provider or values.get("LABMIND_PROVIDER") or "openai").lower()
 
     if selected == "openai":
