@@ -24,6 +24,17 @@ python -m pip install -r requirements.txt
 Copy-Item .env.example .env.local
 ```
 
+Start the integrated web interface with:
+
+```powershell
+streamlit run app.py
+```
+
+The page uploads a label image to the local backend pipeline and displays OCR,
+inventory, expiry, and alternative-product results. Mock mode works without an
+API key; live mode supports OpenAI, UniVibe, and Gemini through `.env.local` or
+Streamlit secrets.
+
 The default configuration uses mock mode, so it does not make a billable API request. Run the backend with any non-empty `.jpg`, `.jpeg`, `.png`, or `.webp` image:
 
 ```python
