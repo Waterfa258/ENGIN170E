@@ -614,10 +614,15 @@ def main() -> None:
 
                 if status == "success":
                     st.success("Backend analysis completed.")
-                else:
+                elif status == "partial":
                     st.warning(
                         payload.get("error_message")
-                        or "Recognition was incomplete. Review the partial fields below."
+                        or "Partial analysis completed. Review the skipped checks below."
+                    )
+                else:
+                    st.error(
+                        payload.get("error_message")
+                        or "Recognition failed. Review the details below."
                     )
 
                 metric_cols = st.columns(2)

@@ -101,7 +101,7 @@ class PipelineTests(unittest.TestCase):
             today=TODAY,
         )
 
-        self.assertEqual(result.status, ResultStatus.FAILED)
+        self.assertEqual(result.status, ResultStatus.PARTIAL)
         self.assertIn("Catalog number", result.error_message)
         self.assertIsNone(result.inventory)
         self.assertEqual(result.image_expiry, "2017-09-30")

@@ -12,6 +12,15 @@ from backend.schemas import (
 
 
 class SchemaTests(unittest.TestCase):
+    def test_partial_analysis_status_is_json_serializable(self) -> None:
+        result = AnalysisResult(
+            status=ResultStatus.PARTIAL,
+            ocr=OCRResult(expiry_date="2027-09-30"),
+            error_message="Inventory lookup was skipped.",
+        )
+
+        self.assertEqual(result.to_dict()["status"], ResultStatus.PARTIAL)
+
     def test_success_result_is_json_serializable(self) -> None:
         result = AnalysisResult(
             status=ResultStatus.SUCCESS,

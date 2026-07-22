@@ -75,7 +75,7 @@ def analyze_label(
             today=today,
         )
         return AnalysisResult(
-            status=ResultStatus.FAILED,
+            status=ResultStatus.PARTIAL,
             ocr=ocr,
             expiry_warning=expiry_warning,
             image_expiry=image_expiry,

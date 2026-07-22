@@ -15,6 +15,7 @@ class ResultStatus(str, Enum):
     """Overall success state for OCR and pipeline operations."""
 
     SUCCESS = "success"
+    PARTIAL = "partial"
     FAILED = "failed"
 
 
